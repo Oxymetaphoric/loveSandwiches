@@ -1,4 +1,5 @@
 
+
 import gspread
 from google.oauth2.service_account import Credentials
 from pprint import pprint
@@ -71,8 +72,26 @@ def get_last_five_sales():
     for ind in range(1,7):
         column = sales.col_values(ind)
         columns.append(column[-5:])
-    pprint(columns)
+    
+    return columns
 
+def calculate_stock_data(data):
+    print("Calculating stock data...\n")
+    new_stock_data = []
+    
+    for column in data: 
+        int_column = [int(num) for num in column]
+        average = sum(int_column)/len(int_column)
+        stock_num = average * 1.1
+        
+        new_stock_data.append(int(stock_num))
+
+    return new_stock_data
+        
+def get_stock_values():
+
+    pass
+    return dictionary
 
 def main():
     data = get_sales_data()
@@ -80,7 +99,9 @@ def main():
     update_worksheet("sales", sales_data)
     surplus_data = calculate_surplus_data(sales_data)
     update_worksheet("surplus", surplus_data)
+    sales_columns = get_last_five_sales()
+    stock_data = calculate_stock_data(sales_columns)
+    update_worksheet("stock", stock_data)
 
 print("Welcome to Love sandwiches Data Automation")
-get_last_five_sales()
-#main()
+main()
